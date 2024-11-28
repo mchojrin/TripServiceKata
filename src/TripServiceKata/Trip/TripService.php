@@ -12,16 +12,16 @@ class TripService
      * @throws UserNotLoggedInException
      */
     public function getTripsByUser(User $user) {
-        $tripList = array();
         $loggedUser = $this->getLoggedUser();
-        $isFriend = false;
         if ($loggedUser != null) {
+            $isFriend = false;
             foreach ($user->getFriends() as $friend) {
                 if ($friend == $loggedUser) {
                     $isFriend = true;
                     break;
                 }
             }
+            $tripList = [];
             if ($isFriend) {
                 $tripList = $this->findTripsByUser($user);
             }
