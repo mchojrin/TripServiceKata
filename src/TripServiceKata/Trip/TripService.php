@@ -13,9 +13,7 @@ class TripService
      */
     public function getTripsByUser(User $user)
     {
-        if ($this->getLoggedUser() == null) {
-            throw new UserNotLoggedInException();
-        }
+        $this->validateUserLoggedIn();
 
         return $this->areFriends($user, $this->getLoggedUser()) ? $this->findTripsByUser($user) : $this->noTrips();
     }
@@ -60,5 +58,16 @@ class TripService
             }
         }
         return $isFriend;
+    }
+
+    /**
+     * @return void
+     * @throws UserNotLoggedInException
+     */
+    protected function validateUserLoggedIn(): void
+    {
+        if ($this->getLoggedUser() == null) {
+            throw new UserNotLoggedInException();
+        }
     }
 }
