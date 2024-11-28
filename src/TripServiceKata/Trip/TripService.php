@@ -21,10 +21,7 @@ class TripService
                     break;
                 }
             }
-            if ($isFriend) {
-                return $this->findTripsByUser($user);
-            }
-            return [];
+            return $isFriend ? $this->findTripsByUser($user) : [];
         } else {
             throw new UserNotLoggedInException();
         }
