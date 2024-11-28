@@ -34,7 +34,7 @@ class TripService
     /**
      * @return User
      */
-    protected function getLoggedUser(): User
+    protected function getLoggedUser(): ?User
     {
         return UserSession::getInstance()->getLoggedUser();
     }
