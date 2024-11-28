@@ -79,10 +79,15 @@ class TripServiceShould extends TestCase
     public function return_friends_trips_if_users_are_friends(): void
     {
         $friend = new User(self::FRIEND_NAME);
-        $friend->addTrip(new Trip());
-        $friend->addTrip(new Trip());
+        $toLondon = new Trip();
+        $friend->addTrip($toLondon);
+        $toNYC = new Trip();
+        $friend->addTrip($toNYC);
         $friend->addFriend($this->registeredUser);
 
-        $this->assertCount(2, $this->tripService->getTripsByUser($friend));
+        $friendsTrips = $this->tripService->getTripsByUser($friend);
+        $this->assertCount(2, $friendsTrips);
+        $this->assertContains($toLondon, $friendsTrips);
+        $this->assertContains($toNYC, $friendsTrips);
     }
 }
