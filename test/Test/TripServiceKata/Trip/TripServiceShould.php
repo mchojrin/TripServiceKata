@@ -36,6 +36,16 @@ class TripServiceShould extends TestCase
 {
     const VISITOR_NAME = "A visitor";
     const FRIEND_NAME = "A friend";
+    const GUEST = null;
+    private $registeredUser;
+    private $tripService;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->registeredUser = new User(self::VISITOR_NAME);
+        $this->tripService = new TestableTripService($this->registeredUser);
+    }
 
     /**
      * @test
@@ -43,8 +53,8 @@ class TripServiceShould extends TestCase
     public function throw_exception_if_user_is_not_logged_in(): void
     {
         $this->expectException(UserNotLoggedInException::class);
-        $tripService = new TestableTripService(null);
-        $tripService->getTripsByUser(new User(self::FRIEND_NAME));
+        $this->tripService = new TestableTripService(self::GUEST);
+        $this->tripService->getTripsByUser(new User(self::FRIEND_NAME));
     }
 
     /**
@@ -53,8 +63,7 @@ class TripServiceShould extends TestCase
      */
     public function return_no_trips_if_users_are_not_friends(): void
     {
-        $tripService = new TestableTripService(new User(self::VISITOR_NAME));
-        $this->assertEmpty($tripService->getTripsByUser(new User(self::FRIEND_NAME)));
+        $this->assertEmpty($this->tripService->getTripsByUser(new User(self::FRIEND_NAME)));
     }
 
     /**
@@ -63,14 +72,11 @@ class TripServiceShould extends TestCase
      */
     public function return_friends_trips_if_users_are_friends(): void
     {
-        $loggedInUser = new User(self::VISITOR_NAME);
-        $tripService = new TestableTripService($loggedInUser);
-
         $friend = new User(self::FRIEND_NAME);
         $friend->addTrip(new Trip());
         $friend->addTrip(new Trip());
-        $friend->addFriend($loggedInUser);
+        $friend->addFriend($this->registeredUser);
 
-        $this->assertCount(2, $tripService->getTripsByUser($friend));
+        $this->assertCount(2, $this->tripService->getTripsByUser($friend));
     }
 }
