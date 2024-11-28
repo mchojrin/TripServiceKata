@@ -2,9 +2,9 @@
 
 namespace TripServiceKata\Trip;
 
+use TripServiceKata\Exception\UserNotLoggedInException;
 use TripServiceKata\User\User;
 use TripServiceKata\User\UserSession;
-use TripServiceKata\Exception\UserNotLoggedInException;
 
 class TripService
 {
@@ -12,7 +12,7 @@ class TripService
     /**
      * @var User
      */
-    private $loggedInUser;
+    private $loggedUser;
     /**
      * @var TripDAO
      */
@@ -30,6 +30,7 @@ class TripService
         $tripService = new self();
         $tripService->setLoggedInUser($loggedInUser);
         $tripService->setTripDAO($tripDAO);
+        $tripService->old = false;
         
         return $tripService;
     }
@@ -41,22 +42,22 @@ class TripService
     {
         $this->validateUserLoggedIn();
 
-        return $friend->isFriendOf($this->getLoggedUser()) ? $this->findTripsByUser($friend) : $this->noTrips();
+        return $friend->isFriendOf($this->getLoggedUser()) ? $this->findTripsBy($friend) : $this->noTrips();
     }
 
     /**
      * @return User
      */
-    protected function getLoggedUser(): ?User
+    private function getLoggedUser(): ?User
     {
-        return $this->old ? UserSession::getInstance()->getLoggedUser() : $this->loggedInUser;
+        return $this->old ? UserSession::getInstance()->getLoggedUser() : $this->loggedUser;
     }
 
     /**
      * @param User $user
      * @return mixed
      */
-    protected function findTripsByUser(User $user): array
+    private function findTripsBy(User $user): array
     {
         return $this->old ? TripDAO::findTripsByUser($user) : $this->tripDAO->findTripsBy($user);
     }
@@ -82,13 +83,11 @@ class TripService
 
     private function setLoggedInUser(?User $loggedInUser): void
     {
-        $this->old = false;
-        $this->loggedInUser = $loggedInUser;
+        $this->loggedUser = $loggedInUser;
     }
 
     private function setTripDAO(TripDAO $tripDAO): void
     {
-        $this->old = false;
         $this->tripDAO = $tripDAO;
     }
 }

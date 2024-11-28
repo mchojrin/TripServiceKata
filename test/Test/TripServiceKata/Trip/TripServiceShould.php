@@ -17,7 +17,6 @@ class TripServiceShould extends TestCase
     const GUEST = null;
     const ANOTHER_FRIEND_NAME = "Another friend";
     private $registeredUser;
-    private $tripService;
 
     protected function setUp()
     {
@@ -31,8 +30,7 @@ class TripServiceShould extends TestCase
     public function throw_exception_if_user_is_not_logged_in(): void
     {
         $this->expectException(UserNotLoggedInException::class);
-        $this->tripService = TripService::newInstance(self::GUEST, new TripDAO());
-        $this->tripService->getTripsByUser(new User(self::FRIEND_NAME));
+        TripService::newInstance(self::GUEST, new TripDAO())->getTripsByUser(new User(self::FRIEND_NAME));
     }
 
     /**
@@ -46,8 +44,7 @@ class TripServiceShould extends TestCase
             ->withTrips(new Trip(), new Trip())
             ->build();
 
-        $this->tripService = TripService::newInstance($this->registeredUser, new TripDAO());
-        $this->assertEmpty($this->tripService->getTripsByUser($friend));
+        $this->assertEmpty(TripService::newInstance($this->registeredUser, new TripDAO())->getTripsByUser($friend));
     }
 
     /**
@@ -71,8 +68,7 @@ class TripServiceShould extends TestCase
             ->with($friend)
             ->willReturn($friend->getTrips());
 
-        $this->tripService = TripService::newInstance($this->registeredUser, $tripDAO);
-        $friendsTrips = $this->tripService->getTripsByUser($friend);
+        $friendsTrips = TripService::newInstance($this->registeredUser, $tripDAO)->getTripsByUser($friend);
         $this->assertCount(2, $friendsTrips);
         $this->assertContains($toLondon, $friendsTrips);
         $this->assertContains($toNYC, $friendsTrips);
