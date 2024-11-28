@@ -1,7 +1,6 @@
 # PHP
 
-To perform the kata, you will need to have all the dependencies installed. This can be done using
-composer (standing from the project root directory)
+To perform the kata, you will need to have all the dependencies installed. This can be done using composer (standing from the project root directory)
 
 ```shell
 wget http://getcomposer.org/composer.phar
@@ -16,9 +15,14 @@ php bin/phpunit
 ## Coverage
 
 When running the tests, a coverage report should be generated automatically in simple text format and HTML report.
+
 If you want to visualize it from the browser, you can open the `coverage/report/index.html` file after running the tests.
 
-Enjoy
+Enjoy.
+
+# Getting started
+
+If you want to start from scratch, after cloning the reopository execute `git checkout initial-state`.
 
 # Note
 
