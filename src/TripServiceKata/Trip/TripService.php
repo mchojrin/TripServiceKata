@@ -23,7 +23,7 @@ class TripService
             }
             $tripList = [];
             if ($isFriend) {
-                $tripList = $this->findTripsByUser($user);
+                return $this->findTripsByUser($user);
             }
             return $tripList;
         } else {
