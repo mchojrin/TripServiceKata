@@ -17,12 +17,12 @@ class User
         $this->friends = array();
     }
 
-    public function getTrips()
+    public function getTrips(): array
     {
         return $this->trips;
     }
 
-    public function getFriends()
+    public function getFriends(): array
     {
         return $this->friends;
     }
@@ -37,8 +37,8 @@ class User
         $this->trips[] = $trip;
     }
 
-    public function isFriendOf(User $bob): bool
+    public function isFriendOf(User $otherUser): bool
     {
-        return in_array($bob, $this->friends);
+        return in_array($otherUser, $this->friends);
     }
 }
