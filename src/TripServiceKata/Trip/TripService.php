@@ -80,7 +80,7 @@ class TripService
         }
     }
 
-    private function setLoggedInUser(User $loggedInUser): void
+    private function setLoggedInUser(?User $loggedInUser): void
     {
         $this->old = false;
         $this->loggedInUser = $loggedInUser;

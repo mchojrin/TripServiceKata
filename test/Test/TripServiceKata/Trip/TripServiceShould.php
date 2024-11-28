@@ -10,30 +10,6 @@ use TripServiceKata\Trip\TripService;
 use TripServiceKata\User\User;
 use TripServiceKata\User\UserBuilder;
 
-class TestableTripService extends TripService
-{
-
-    /**
-     * @var User|null
-     */
-    private $loggedInUser;
-
-    public function __construct(?User $loggedInUser = null)
-    {
-        $this->loggedInUser = $loggedInUser;
-    }
-
-    protected function getLoggedUser(): ?User
-    {
-        return $this->loggedInUser;
-    }
-
-    protected function findTripsByUser(User $user): array
-    {
-        return $user->getTrips();
-    }
-}
-
 class TripServiceShould extends TestCase
 {
     const VISITOR_NAME = "A visitor";
@@ -88,7 +64,14 @@ class TripServiceShould extends TestCase
             ->withTrips($toLondon, $toNYC)
             ->build();
 
-        $this->tripService = TripService::newInstance($this->registeredUser, new TripDAO());
+        $tripDAO = $this->createMock(TripDAO::class);
+        $tripDAO
+            ->expects($this->once())
+            ->method("findTripsBy")
+            ->with($friend)
+            ->willReturn($friend->getTrips());
+
+        $this->tripService = TripService::newInstance($this->registeredUser, $tripDAO);
         $friendsTrips = $this->tripService->getTripsByUser($friend);
         $this->assertCount(2, $friendsTrips);
         $this->assertContains($toLondon, $friendsTrips);
