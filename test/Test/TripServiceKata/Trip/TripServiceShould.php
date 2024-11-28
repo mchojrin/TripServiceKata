@@ -7,6 +7,7 @@ use TripServiceKata\Exception\UserNotLoggedInException;
 use TripServiceKata\Trip\Trip;
 use TripServiceKata\Trip\TripService;
 use TripServiceKata\User\User;
+use TripServiceKata\User\UserBuilder;
 
 class TestableTripService extends TripService
 {
@@ -64,10 +65,10 @@ class TripServiceShould extends TestCase
      */
     public function return_no_trips_if_users_are_not_friends(): void
     {
-        $friend = new User(self::FRIEND_NAME);
-        $friend->addTrip(new Trip());
-        $friend->addTrip(new Trip());
-        $friend->addFriend(new User(self::ANOTHER_FRIEND_NAME));
+        $friend = UserBuilder::aUser(self::FRIEND_NAME)
+            ->withFriends(new User(self::ANOTHER_FRIEND_NAME))
+            ->withTrips(new Trip(), new Trip())
+            ->build();
 
         $this->assertEmpty($this->tripService->getTripsByUser($friend));
     }
@@ -78,12 +79,13 @@ class TripServiceShould extends TestCase
      */
     public function return_friends_trips_if_users_are_friends(): void
     {
-        $friend = new User(self::FRIEND_NAME);
         $toLondon = new Trip();
-        $friend->addTrip($toLondon);
         $toNYC = new Trip();
-        $friend->addTrip($toNYC);
-        $friend->addFriend($this->registeredUser);
+
+        $friend = UserBuilder::aUser(self::FRIEND_NAME)
+            ->withFriends($this->registeredUser, new User(self::ANOTHER_FRIEND_NAME))
+            ->withTrips($toLondon, $toNYC)
+            ->build();
 
         $friendsTrips = $this->tripService->getTripsByUser($friend);
         $this->assertCount(2, $friendsTrips);
