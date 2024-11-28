@@ -22,7 +22,7 @@ class TripService
         $this->setTripDAO(new TripDAO());
     }
 
-    public static function newInstace(User $loggedInUser, TripDAO $tripDAO): TripService
+    public static function newInstace(?User $loggedInUser, TripDAO $tripDAO): TripService
     {
         $tripService = new TripService();
         $tripService->setLoggedInUser($loggedInUser);

@@ -5,6 +5,7 @@ namespace Test\TripServiceKata\Trip;
 use PHPUnit\Framework\TestCase;
 use TripServiceKata\Exception\UserNotLoggedInException;
 use TripServiceKata\Trip\Trip;
+use TripServiceKata\Trip\TripDAO;
 use TripServiceKata\Trip\TripService;
 use TripServiceKata\User\User;
 use TripServiceKata\User\UserBuilder;
@@ -55,7 +56,7 @@ class TripServiceShould extends TestCase
     public function throw_exception_if_user_is_not_logged_in(): void
     {
         $this->expectException(UserNotLoggedInException::class);
-        $this->tripService = new TestableTripService(self::GUEST);
+        $this->tripService = TripService::newInstace(self::GUEST, new TripDAO());
         $this->tripService->getTripsByUser(new User(self::FRIEND_NAME));
     }
 
