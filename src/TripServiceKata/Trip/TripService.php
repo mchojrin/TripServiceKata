@@ -13,7 +13,9 @@ class TripService
      */
     public function getTripsByUser(User $user) {
         $loggedUser = $this->getLoggedUser();
-        if ($loggedUser != null) {
+        if ($loggedUser == null) {
+            throw new UserNotLoggedInException();
+        } else {
             $isFriend = false;
             foreach ($user->getFriends() as $friend) {
                 if ($friend == $loggedUser) {
@@ -22,8 +24,6 @@ class TripService
                 }
             }
             return $isFriend ? $this->findTripsByUser($user) : [];
-        } else {
-            throw new UserNotLoggedInException();
         }
     }
 
