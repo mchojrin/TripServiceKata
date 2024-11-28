@@ -47,7 +47,6 @@ class TripServiceShould extends TestCase
     {
         parent::setUp();
         $this->registeredUser = new User(self::VISITOR_NAME);
-        $this->tripService = new TestableTripService($this->registeredUser);
     }
 
     /**
@@ -56,7 +55,7 @@ class TripServiceShould extends TestCase
     public function throw_exception_if_user_is_not_logged_in(): void
     {
         $this->expectException(UserNotLoggedInException::class);
-        $this->tripService = TripService::newInstace(self::GUEST, new TripDAO());
+        $this->tripService = TripService::newInstance(self::GUEST, new TripDAO());
         $this->tripService->getTripsByUser(new User(self::FRIEND_NAME));
     }
 
@@ -71,6 +70,7 @@ class TripServiceShould extends TestCase
             ->withTrips(new Trip(), new Trip())
             ->build();
 
+        $this->tripService = TripService::newInstance($this->registeredUser, new TripDAO());
         $this->assertEmpty($this->tripService->getTripsByUser($friend));
     }
 
@@ -88,6 +88,7 @@ class TripServiceShould extends TestCase
             ->withTrips($toLondon, $toNYC)
             ->build();
 
+        $this->tripService = new TestableTripService($this->registeredUser);
         $friendsTrips = $this->tripService->getTripsByUser($friend);
         $this->assertCount(2, $friendsTrips);
         $this->assertContains($toLondon, $friendsTrips);

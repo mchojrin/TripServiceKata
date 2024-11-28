@@ -8,6 +8,7 @@ use TripServiceKata\Exception\UserNotLoggedInException;
 
 class TripService
 {
+    private $old = true;
     /**
      * @var User
      */
@@ -18,13 +19,11 @@ class TripService
      */
     public function __construct()
     {
-        $this->setLoggedInUser(UserSession::getInstance()->getLoggedUser());
-        $this->setTripDAO(new TripDAO());
     }
 
-    public static function newInstace(?User $loggedInUser, TripDAO $tripDAO): TripService
+    public static function newInstance(?User $loggedInUser, TripDAO $tripDAO): TripService
     {
-        $tripService = new TripService();
+        $tripService = new self();
         $tripService->setLoggedInUser($loggedInUser);
         $tripService->setTripDAO($tripDAO);
         
@@ -46,7 +45,7 @@ class TripService
      */
     protected function getLoggedUser(): ?User
     {
-        return UserSession::getInstance()->getLoggedUser();
+        return $this->old ? UserSession::getInstance()->getLoggedUser() : $this->loggedInUser;
     }
 
     /**
@@ -79,11 +78,13 @@ class TripService
 
     private function setLoggedInUser(User $loggedInUser): void
     {
+        $this->old = false;
         $this->loggedInUser = $loggedInUser;
     }
 
     private function setTripDAO(TripDAO $tripDAO): void
     {
+        $this->old = false;
         $this->tripDAO = $tripDAO;
     }
 }
