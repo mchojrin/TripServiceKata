@@ -37,6 +37,7 @@ class TripServiceShould extends TestCase
     const VISITOR_NAME = "A visitor";
     const FRIEND_NAME = "A friend";
     const GUEST = null;
+    const ANOTHER_FRIEND_NAME = "Another friend";
     private $registeredUser;
     private $tripService;
 
@@ -63,7 +64,12 @@ class TripServiceShould extends TestCase
      */
     public function return_no_trips_if_users_are_not_friends(): void
     {
-        $this->assertEmpty($this->tripService->getTripsByUser(new User(self::FRIEND_NAME)));
+        $friend = new User(self::FRIEND_NAME);
+        $friend->addTrip(new Trip());
+        $friend->addTrip(new Trip());
+        $friend->addFriend(new User(self::ANOTHER_FRIEND_NAME));
+
+        $this->assertEmpty($this->tripService->getTripsByUser($friend));
     }
 
     /**
