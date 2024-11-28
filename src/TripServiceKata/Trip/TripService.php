@@ -15,7 +15,7 @@ class TripService
     {
         $this->validateUserLoggedIn();
 
-        return $this->areFriends($user, $this->getLoggedUser()) ? $this->findTripsByUser($user) : $this->noTrips();
+        return $user->isFriendOf($this->getLoggedUser()) ? $this->findTripsByUser($user) : $this->noTrips();
     }
 
     /**
@@ -41,16 +41,6 @@ class TripService
     protected function noTrips(): array
     {
         return [];
-    }
-
-    /**
-     * @param User $user
-     * @param User $loggedUser
-     * @return bool
-     */
-    protected function areFriends(User $user, User $loggedUser): bool
-    {
-        return $user->isFriendOf($loggedUser);
     }
 
     /**
