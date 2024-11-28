@@ -88,7 +88,7 @@ class TripServiceShould extends TestCase
             ->withTrips($toLondon, $toNYC)
             ->build();
 
-        $this->tripService = new TestableTripService($this->registeredUser);
+        $this->tripService = TripService::newInstance($this->registeredUser, new TripDAO());
         $friendsTrips = $this->tripService->getTripsByUser($friend);
         $this->assertCount(2, $friendsTrips);
         $this->assertContains($toLondon, $friendsTrips);

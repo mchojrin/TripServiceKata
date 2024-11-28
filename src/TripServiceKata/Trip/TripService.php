@@ -13,6 +13,10 @@ class TripService
      * @var User
      */
     private $loggedInUser;
+    /**
+     * @var TripDAO
+     */
+    private $tripDAO;
 
     /**
      * @deprecated
@@ -54,7 +58,7 @@ class TripService
      */
     protected function findTripsByUser(User $user): array
     {
-        return TripDAO::findTripsByUser($user);
+        return $this->old ? TripDAO::findTripsByUser($user) : $this->tripDAO->findTripsBy($user);
     }
 
     /**
