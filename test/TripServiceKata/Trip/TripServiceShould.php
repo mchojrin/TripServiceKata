@@ -20,7 +20,7 @@ class TripServiceShould extends TestCase
     /**
      * @test
      */
-    public function return_no_trips(): void
+    public function throw_exception_when_user_is_not_logged_in(): void
     {
         $this->expectException(UserNotLoggedInException::class);
         $tripService = new TestableTripService();
