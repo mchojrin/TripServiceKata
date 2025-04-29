@@ -26,7 +26,7 @@
 
     <logging>
         <log type="coverage-html" target="coverage/report" lowUpperBound="35" highLowerBound="70"/>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+        <log type="coverage-text" target="php://stdout"/>
     </logging>
 
 </phpunit>

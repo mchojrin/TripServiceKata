@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\TripServiceKata\Trip;
+namespace test\TripServiceKata\Trip;
 
 use PHPUnit\Framework\TestCase;
 
