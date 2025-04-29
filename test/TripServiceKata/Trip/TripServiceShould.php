@@ -10,7 +10,7 @@ class TestableTripService extends TripService
 {
     protected function getLoggedUser(): ?User
     {
-        return new User('John Doe');
+        return null;
     }
 }
 
