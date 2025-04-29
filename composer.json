@@ -1,17 +1,17 @@
 {
-    "name": "sandromancuso/trip-service-kata",
-    "description": "Kata for a legacy code hands-on session. The objective is to write tests and refactor the given legacy code.",
+    "name": "mchojrin/trip-service-kata",
+    "description": "POC for illustrating how to deal with legacy code. Based on https://github.com/sandromancuso/trip-service-kata.",
     "require-dev": {
-        "php": "^7.0",
-        "phpunit/phpunit": "^6.5"
+        "php": "^7.2",
+        "phpunit/phpunit": "^6.5.14"
     },
     "scripts": {
         "test": "phpunit"
     },
     "authors": [
         {
-            "name": "Sandro Mancuso",
-            "email": "sandromancuso@gmail.com"
+            "name": "Mauro Chojrin",
+            "email": "mauro.chojrin@leewayweb.com"
         }
     ],
     "minimum-stability": "stable",
@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-0": {
-            "": ["src/"]
+            "": ["src/"],
+            "test": ["test/"]
         }
     }
 }
