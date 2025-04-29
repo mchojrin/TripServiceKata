@@ -19,7 +19,7 @@ class TripServiceShould extends TestCase
     /**
      * @test
      */
-    public function do_something(): void
+    public function return_no_trips(): void
     {
         $tripService = new TestableTripService();
         $this->assertEquals([], $tripService->getTripsByUser(new User('Mauro')));
