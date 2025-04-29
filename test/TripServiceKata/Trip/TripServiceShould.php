@@ -33,7 +33,7 @@ class TripServiceShould extends TestCase
     /**
      * @test
      */
-    public function do_something_when_user_has_no_friends(): void
+    public function return_no_trips_when_user_has_no_friends(): void
     {
         $tripService = new TestableTripService();
         $tripService->loggedUser = new User('John');
