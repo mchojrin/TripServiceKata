@@ -6,6 +6,12 @@ use PHPUnit\Framework\TestCase;
 use TripServiceKata\Trip\TripService;
 use TripServiceKata\User\User;
 
+class TestableTripService extends TripService
+{
+
+
+}
+
 class TripServiceShould extends TestCase
 {
     /**
