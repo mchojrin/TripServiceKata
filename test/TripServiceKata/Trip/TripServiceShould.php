@@ -47,4 +47,18 @@ class TripServiceShould extends TestCase
         $aUser->addTrip($aTrip);
         $this->assertEquals([], $tripService->getTripsByUser($aUser));
     }
+
+    /**
+     * @test
+     */
+    public function do_something_when_user_is_friend_of_loggedIn_user(): void
+    {
+        $tripService = new TestableTripService();
+        $tripService->loggedUser = new User('John');
+        $aUser = new User('Mauro');
+        $aUser->addFriend($tripService->loggedUser);
+        $aTrip = new Trip();
+        $aUser->addTrip($aTrip);
+        $this->assertEquals([], $tripService->getTripsByUser($aUser));
+    }
 }
