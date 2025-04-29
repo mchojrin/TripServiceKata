@@ -9,10 +9,13 @@ use TripServiceKata\User\User;
 
 class TestableTripService extends TripService
 {
+    public $loggedUser;
+
     protected function getLoggedUser(): ?User
     {
-        return null;
+        return $this->loggedUser;
     }
+
 }
 
 class TripServiceShould extends TestCase
