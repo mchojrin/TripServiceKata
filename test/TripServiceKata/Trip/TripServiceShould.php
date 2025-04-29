@@ -4,6 +4,7 @@ namespace Test\TripServiceKata\Trip;
 
 use PHPUnit\Framework\TestCase;
 use TripServiceKata\Trip\TripService;
+use TripServiceKata\User\User;
 
 class TripServiceShould extends TestCase
 {
@@ -13,6 +14,6 @@ class TripServiceShould extends TestCase
     public function do_something(): void
     {
         $tripService = new TripService();
-        $this->assertEquals([], $tripService->getTripsByUser(null));
+        $this->assertEquals([], $tripService->getTripsByUser(new User('Mauro')));
     }
 }
