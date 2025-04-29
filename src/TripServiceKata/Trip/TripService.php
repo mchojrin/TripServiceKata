@@ -30,4 +30,9 @@ class TripService
             throw new UserNotLoggedInException();
         }
     }
+
+    protected function getLoggedUser(): ?User
+    {
+        return UserSession::getInstance()->getLoggedUser();
+    }
 }
