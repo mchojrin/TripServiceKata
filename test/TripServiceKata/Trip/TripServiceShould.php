@@ -59,6 +59,6 @@ class TripServiceShould extends TestCase
         $aUser->addFriend($tripService->loggedUser);
         $aTrip = new Trip();
         $aUser->addTrip($aTrip);
-        $this->assertEquals([], $tripService->getTripsByUser($aUser));
+        $this->assertEquals([$aTrip], $tripService->getTripsByUser($aUser));
     }
 }
