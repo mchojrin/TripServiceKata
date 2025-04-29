@@ -16,6 +16,10 @@ class TestableTripService extends TripService
         return $this->loggedUser;
     }
 
+    protected function findTripsByUser(User $user)
+    {
+        return $user->getTrips();
+    }
 }
 
 class TripServiceShould extends TestCase
